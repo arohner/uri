@@ -1,7 +1,7 @@
 This is a library that makes working with URIs in Clojure and ClojureScript a
 little more pleasant.
 
-Fork of [cemerick/url](https://github.com/cemerick/url), only difference is this uses java.net.URI rather than java.net.URL
+Fork of [cemerick/url](https://github.com/cemerick/url), only difference is this uses `java.net.URI` rather than `java.net.URL`
 
 Q: Why do I care about this difference?
 
