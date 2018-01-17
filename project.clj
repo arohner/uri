@@ -1,4 +1,4 @@
-(defproject com.cemerick/url "0.1.2-SNAPSHOT"
+(defproject com.arohner/uri "0.1.2-SNAPSHOT"
   :description "Makes working with URLs in Clojure a little more pleasant."
   :url "http://github.com/cemerick/url"
   :license {:name "Eclipse Public License"
@@ -14,6 +14,8 @@
   :profiles {:dev {:dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.0.5"]]
                    :plugins [[lein-cljsbuild "0.3.2"]]}}
+
+  :deploy-repositories [["releases" :clojars]]
   
   :cljsbuild {:builds [{:source-paths ["target/generated-src" "target/generated-test"]
                         :compiler {:output-to "target/cljs/testable.js"}
