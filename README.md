@@ -5,7 +5,10 @@ Fork of [cemerick/url](https://github.com/cemerick/url), only difference is this
 
 Q: Why do I care about this difference?
 
-A:
+A: tl;dr Java assumes it knows how to openConnection() all URLs. If you have something that looks like a URL that Java doesn't know how to open (i.e. postgres or kafka connection URIs), it will throw. 
+
+Longer:
+
 > Since the URL class has an openConnection method, the URL class checks to make sure that Java knows how to open a connection of the correct protocol. Without a URLStreamHandler for that protocol, Java refuses to create a URL to save you from failure when you try to call openConnection.
 
 See also
