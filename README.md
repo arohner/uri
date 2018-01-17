@@ -3,13 +3,27 @@
 This is a library that makes working with URLs in Clojure and ClojureScript a
 little more pleasant.
 
+Fork of [cemerick/url], only difference is this uses java.net.URI rather than java.net.URL
+
+Q: Why do I care about this difference?
+
+A:
+
+````
+Since the URL class has an openConnection method, the URL class checks to make sure that Java knows how to open a connection of the correct protocol. Without a URLStreamHandler for that protocol, Java refuses to create a URL to save you from failure when you try to call openConnection.
+```
+
+https://stackoverflow.com/questions/2406518/why-does-javas-url-class-not-recognize-certain-protocols
+
+https://github.com/cemerick/url/issues/3
+
 ## "Installation"
 
 url is available in Clojars. Add this `:dependency` to your Leiningen
 `project.clj`:
 
 ```clojure
-[com.cemerick/url "0.1.1"]
+[com.arohner/uri "0.1.2"]
 ```
 
 Or, add this to your Maven project's `pom.xml`:
@@ -21,21 +35,17 @@ Or, add this to your Maven project's `pom.xml`:
 </repository>
 
 <dependency>
-  <groupId>com.cemerick</groupId>
-  <artifactId>url</artifactId>
-  <version>0.1.1</version>
+  <groupId>com.arohner</groupId>
+  <artifactId>uri</artifactId>
+  <version>0.1.2</version>
 </dependency>
 ```
 
-Starting with version `0.1.0`, url requires Clojure >= 1.5.0.  It provides the
-same API under ClojureScript (tested with ClojureScript `0.0-1835`, and should
-work well with any later revision).
-
 ## Usage
 
-The `cemerick.url/url` function returns an instance of the
-`cemerick.url.URL` record type that allows you to easily work with each
-datum within the provided URL:
+The `arohner.uri/uri` function returns an instance of the
+`arohner.uri.URI` record type that allows you to easily work with each
+datum within the provided URI:
 
 ```clojure
 => (require '[cemerick.url :refer (url url-encode)])
