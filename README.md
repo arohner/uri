@@ -1,12 +1,11 @@
 This is a library that makes working with URIs in Clojure and ClojureScript a
 little more pleasant.
 
-Fork of github.com/cemerick/url, only difference is this uses java.net.URI rather than java.net.URL
+Fork of [cemerick/url](https://github.com/cemerick/url), only difference is this uses java.net.URI rather than java.net.URL
 
 Q: Why do I care about this difference?
 
 A:
-
 > Since the URL class has an openConnection method, the URL class checks to make sure that Java knows how to open a connection of the correct protocol. Without a URLStreamHandler for that protocol, Java refuses to create a URL to save you from failure when you try to call openConnection.
 
 See also
@@ -95,7 +94,7 @@ to passing them to `uri`.  e.g.:
 
 ## Limitations
 
-CLJS support is currently untested
+CLJS should work, but is currently untested because I don't need it ATM.
 
 ## License
 
