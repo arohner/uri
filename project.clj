@@ -5,20 +5,21 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [pathetic "0.5.0"]
-                 [org.clojure/clojurescript "0.0-1835" :optional true]]
+                 [org.clojure/clojurescript "1.10.238" :optional true]]
 
   :source-paths ["src" "target/generated-src"]
   :test-paths ["test/" "target/generated-test"]
   :aliases  {"cleantest" ["do" "clean," "cljx" "once," "test,"
                           "cljsbuild" "once," "cljsbuild" "test"]}
-  :profiles {:dev {:dependencies [[com.cemerick/clojurescript.test "0.0.4"]
-                                  [com.cemerick/piggieback "0.0.5"]]
-                   :plugins [[lein-cljsbuild "0.3.2"]]}}
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.0.5"]]
+                   :plugins [[lein-cljsbuild "1.1.7"]
+                             [lein-doo "0.1.10"]]}}
 
   :deploy-repositories [["releases" :clojars]]
   
-  :cljsbuild {:builds [{:source-paths ["target/generated-src" "target/generated-test"]
-                        :compiler {:output-to "target/cljs/testable.js"}
-                        :optimizations :whitespace
-                        :pretty-print true}]
-              :test-commands {"unit-tests" ["runners/phantomjs.js" "target/cljs/testable.js"]}})
+  :cljsbuild {:builds [{:id "test"
+                        :source-paths ["src" "test"]
+                        :compiler {:main cemerick.runner
+                                   :output-to "target/cljs/testable.js"
+                                   :output-dir "target/cljs/out"
+                                   :pretty-print true}}]})

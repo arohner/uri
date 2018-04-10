@@ -1,10 +1,9 @@
 (ns cemerick.test-uri
   #?(:clj (:import java.net.URI))
   #?(:clj (:use cemerick.uri
-               clojure.test))
-  #?(:cljs (:require-macros [cemerick.cljs.test :refer (are is deftest with-test run-tests testing)]))
-  #?(:cljs (:use [cemerick.uri :only [uri map->query query->map map->URI]]))
-  #?(:cljs (:require [cemerick.cljs.test :as t])))
+                clojure.test))
+  #?(:cljs (:require [cljs.test :as t :refer-macros [are is deftest testing]]
+                     [cemerick.uri :refer [uri map->query query->map map->URI]])))
 
 (def uri-str (comp str uri))
 
