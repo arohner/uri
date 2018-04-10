@@ -2,4 +2,4 @@ language: clojure
 
 script:
     - lein test
-    - lein cljsbuild test
+    - lein doo phantom test once

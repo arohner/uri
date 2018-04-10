@@ -3,7 +3,7 @@
   #?(:cljs (:require-macros [clojure.core :refer [some-> some->>]]))
   (:require [pathetic.core :as pathetic]
             [clojure.string :as string]
-            #?(:cljs [goog.Uri :as uri])))
+            #?(:cljs [goog.Uri])))
 
 #?(:clj
    (defn uri-encode
