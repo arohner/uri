@@ -12,7 +12,8 @@
        "a=1&b=2&c=3" {:a 1 :b 2 :c 3}
        "a=1&b=2&c=3" {:a "1"  :b "2" :c "3"}
        "a=1&b=2" {"a" "1" "b" "2"}
-       "a=" {"a" ""}))
+       "a=" {"a" ""}
+       "filter%5Bname%5D%5Boperator%5D=eq&filter%5Bname%5D%5Bvalue%5D=hn" {:filter {:name {:value "hn" :operator :eq}}}))
 
 (deftest uri-roundtripping
   (let [auri (uri "https://username:password@some.host.com/database?query=string")]
@@ -43,6 +44,7 @@
     "a=1&b=2&c=3" {"a" "1" "b" "2" "c" "3"}
     "a=" {"a" ""}
     "a" {"a" ""}
+    "filter%5Bname%5D%5Boperator%5D=eq&filter%5Bname%5D%5Bvalue%5D=hn" {"filter" {"name" {"value" "hn" "operator" "eq"}}}
     nil nil
     "" nil))
 

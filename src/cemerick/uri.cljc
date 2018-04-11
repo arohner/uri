@@ -15,6 +15,21 @@
      [string]
      (some-> string str (js/encodeURIComponent) (.replace "+" "%20"))))
 
+(defn- query-map->query-seq [m]
+  (mapcat (fn [[k v]]
+            (cond
+              (map? v) (map #(cons (name k) %) (query-map->query-seq v))
+              :else [[(name k) (if (keyword? v) (name v) (str v))]]))
+          m))
+
+(defn- query-seq->simple-query-map [s]
+  (map (fn [s]
+         [(str (first s)
+               (clojure.string/join (map #(str "[" % "]")
+                                         (rest (butlast s)))))
+          (last s)])
+       s))
+
 #?(:clj
    (defn uri-decode
      ([string] (uri-decode string "UTF-8"))
@@ -29,14 +44,16 @@
 (defn map->query
   [m]
   (some->> (seq m)
-    sort                     ; sorting makes testing a lot easier :-)
-    (map (fn [[k v]]
-           [(uri-encode (name k))
-            "="
-            (uri-encode (str v))]))
-    (interpose "&")
-    flatten
-    (apply str)))
+           (query-map->query-seq)
+           (query-seq->simple-query-map)
+           sort                     ; sorting makes testing a lot easier :-)
+           (map (fn [[k v]]
+                  [(uri-encode k)
+                   "="
+                   (uri-encode v)]))
+           (interpose "&")
+           flatten
+           (apply str)))
 
 (defn split-param [param]
   (->
@@ -45,6 +62,15 @@
    (->>
     (take 2))))
 
+(defn- unnest-query-map [m]
+  (reduce-kv (fn [m k v]
+               (let [[_ f r] (re-find #"^([^\[]+)((\[[^\]]+\])*)$" k)]
+                 (assoc-in m
+                           (cons f (map second (re-seq #"\[([^\]]+)\]" r)))
+                           v)))
+             {}
+             m))
+
 (defn query->map
   [qstr]
   (when (not (string/blank? qstr))
@@ -52,7 +78,8 @@
       seq
       (mapcat split-param)
       (map uri-decode)
-      (apply hash-map))))
+      (apply hash-map)
+      (unnest-query-map))))
 
 (defn- port-str
   [protocol port]
