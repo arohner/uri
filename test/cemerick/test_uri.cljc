@@ -1,10 +1,9 @@
 (ns cemerick.test-uri
   #?(:clj (:import java.net.URI))
   #?(:clj (:use cemerick.uri
-               clojure.test))
-  #?(:cljs (:require-macros [cemerick.cljs.test :refer (are is deftest with-test run-tests testing)]))
-  #?(:cljs (:use [cemerick.uri :only [uri map->query query->map map->URI]]))
-  #?(:cljs (:require [cemerick.cljs.test :as t])))
+                clojure.test))
+  #?(:cljs (:require [cljs.test :as t :refer-macros [are is deftest testing]]
+                     [cemerick.uri :refer [uri map->query query->map map->URI]])))
 
 (def uri-str (comp str uri))
 
@@ -13,7 +12,8 @@
        "a=1&b=2&c=3" {:a 1 :b 2 :c 3}
        "a=1&b=2&c=3" {:a "1"  :b "2" :c "3"}
        "a=1&b=2" {"a" "1" "b" "2"}
-       "a=" {"a" ""}))
+       "a=" {"a" ""}
+       "filter%5Bname%5D%5Boperator%5D=eq&filter%5Bname%5D%5Bvalue%5D=hn" {:filter {:name {:value "hn" :operator :eq}}}))
 
 (deftest uri-roundtripping
   (let [auri (uri "https://username:password@some.host.com/database?query=string")]
@@ -44,6 +44,7 @@
     "a=1&b=2&c=3" {"a" "1" "b" "2" "c" "3"}
     "a=" {"a" ""}
     "a" {"a" ""}
+    "filter%5Bname%5D%5Boperator%5D=eq&filter%5Bname%5D%5Bvalue%5D=hn" {"filter" {"name" {"value" "hn" "operator" "eq"}}}
     nil nil
     "" nil))
 
